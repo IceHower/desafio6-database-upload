@@ -56,16 +56,19 @@ class ImportTransactionsService {
       .filter(category => !existentCategoriesTitle.includes(category))
       .filter((value, index, self) => self.indexOf(value) === index);
 
+    // Cria um objeto no repository de category
     const newCategories = categoriesRepository.create(
       addCategoryTitles.map(title => ({
         title,
       })),
     );
 
+    // Salva as categorias no banco de dados.
     await categoriesRepository.save(newCategories);
 
+    // as finalsCategories vai ser todas as novas e as que ja existiam
     const finalCategories = [...newCategories, ...existentCategories];
-
+    // Cria um objeto no repository de transaction
     const createdTransaction = transactionsRepository.create(
       transactions.map(transaction => ({
         title: transaction.title,
