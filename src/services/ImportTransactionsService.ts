@@ -76,8 +76,9 @@ class ImportTransactionsService {
         ),
       })),
     );
-
+    // salva as transactions criadas
     await transactionsRepository.save(createdTransaction);
+    // deleta os arquivos que foram uploadados
     await fs.promises.unlink(filePath);
     return createdTransaction;
   }
